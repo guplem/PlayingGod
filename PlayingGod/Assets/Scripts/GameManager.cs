@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour
             instance = this;
     }
 
-    public Vector3 GetRandomPointInScenario()
+    public Vector3 GetRandomPointInScenario(float minDistanceToCenter = 0)
     {
-        Vector2 randomPoint = RandomPoint(transform.position.ToVector2WithoutY(), scenarioRadius);
+        Vector2 randomPoint = RandomPoint(transform.position.ToVector2WithoutY(), scenarioRadius, minDistanceToCenter);
         return randomPoint.ToVector3NewY(0f);
     }
     

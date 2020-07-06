@@ -10,7 +10,7 @@ public class FoodManager : MonoBehaviour
     private void Awake()
     {
         if (instance != null)
-            Debug.LogWarning($"More than one GameManager has been created. {instance.gameObject.name} and {gameObject.name}", gameObject);
+            Debug.LogWarning($"More than one FoodManager has been created. {instance.gameObject.name} and {gameObject.name}", gameObject);
         else
             instance = this;
     }
@@ -33,9 +33,10 @@ public class FoodManager : MonoBehaviour
         foodPool.Spawn(GameManager.instance.GetRandomPointInScenario(), Quaternion.identity, Vector3.one);
     }
 
-    public void Collected(Food food)
+    public void Collected(Food food, Pingu pingu)
     {
-        foodPool.Disable(this.food.gameObject);
+        pingu.Feed();
+        foodPool.Disable(food.gameObject);
         StartCoroutine(nameof(InstantSpawn));
     }
     

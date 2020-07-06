@@ -93,7 +93,7 @@ namespace UnityEngine
             }
             else
             {
-                Debug.LogWarning("Trying to disable an object ("+gameObject.name+") from a pool that doesn't belong to.");
+                Debug.LogWarning("Trying to disable an object ("+gameObject.name+") from a pool that doesn't belong to.", gameObject);
                 return null;
             }
         }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 48500831017158044}
   - component: {fileID: 48500831017158045}
   - component: {fileID: 4131053211602619875}
+  - component: {fileID: 1057029351}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -60,3 +61,18 @@ MonoBehaviour:
   food: {fileID: 6113263625331668125, guid: da6cce7932acf0947963740d898f08ea, type: 3}
   maxFoodQtty: 50
   foodDelayRespawn: 3
+--- !u!114 &1057029351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48500831017158042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9660fef05aacf548b8d07910824f983, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  penguin: {fileID: 6687576979631891645, guid: e3bd31f0c988acd47a3b50a0cf6000ce, type: 3}
+  maxPinguQtty: 15
+  minDistanceFromCenter: 20
