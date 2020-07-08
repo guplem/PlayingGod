@@ -9,6 +9,7 @@ public class DNA : ScriptableObject
     
     [SerializeField] public float speed { get; private set; }
     [SerializeField] public float sense { get; private set; }
+    [SerializeField] public float senseFrequency { get; private set; }
     
     [SerializeField] public float percEnergyToReproduce { get; private set; }
     [SerializeField] public float minEnergyToReproduce { get; private set; }
@@ -25,17 +26,18 @@ public class DNA : ScriptableObject
 
     private float CalculateEnergyCostPerSecond()
     {
-        float e = speed * 1f + sense * 1.5f;
+        float e = speed * 1f + (sense * 1f / senseFrequency);
         return e / 3;
     }
 
     private float _energyCostPerSecond = -1;
 
-    public void SetValues(float mutationPercentage = 0.1f, float speed = 1f, float sense= 3f, float percEnergyToReproduce = 0.5f, float minEnergyToReproduce = 100f)
+    public void SetValues(float mutationPercentage = 0.1f, float speed = 1f, float sense= 3f, float senseFrequency= 3f, float percEnergyToReproduce = 0.5f, float minEnergyToReproduce = 100f)
     {
         this.mutationPercentage = mutationPercentage;
         this.speed = speed;
         this.sense = sense;
+        this.senseFrequency = senseFrequency;
         this.percEnergyToReproduce = percEnergyToReproduce;
         this.minEnergyToReproduce = minEnergyToReproduce;
     }
@@ -47,11 +49,12 @@ public class DNA : ScriptableObject
         float mutationMutationPercentage = rnd.GetRandomFloat(1-mutationPercentage, 1+mutationPercentage)*mutationPercentage;
         float mutatedSpeed = rnd.GetRandomFloat(1-mutationPercentage, 1+mutationPercentage)*speed;
         float mutatedSense = rnd.GetRandomFloat(1-mutationPercentage, 1+mutationPercentage)*sense;
+        float mutatedSenseFrequency = rnd.GetRandomFloat(1-mutationPercentage, 1+mutationPercentage)*senseFrequency;
         float mutatedPercEnergyToReproduce = rnd.GetRandomFloat(1-mutationPercentage, 1+mutationPercentage)*percEnergyToReproduce;
         float mutatedMinEnergyToReproduce = rnd.GetRandomFloat(1-mutationPercentage, 1+mutationPercentage)*minEnergyToReproduce;
         
         DNA newDna = ScriptableObject.CreateInstance<DNA>();
-        newDna.SetValues(mutationMutationPercentage, mutatedSpeed, mutatedSense, mutatedPercEnergyToReproduce, mutatedMinEnergyToReproduce);
+        newDna.SetValues(mutationMutationPercentage, mutatedSpeed, mutatedSense, mutatedSenseFrequency, mutatedPercEnergyToReproduce, mutatedMinEnergyToReproduce);
         return newDna;
     }
 

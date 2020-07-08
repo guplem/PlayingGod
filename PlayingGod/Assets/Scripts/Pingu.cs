@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -26,11 +27,17 @@ public class Pingu : MonoBehaviour
         get { return _dna;}
         private set
         {
-            _dna = value; 
+            if (_dna != null)
+            {
+                Debug.LogError($"RESSETTING DNA OF PINGU {gameObject.name}", gameObject);
+                Debug.Break();
+            }
+            _dna = value;
             Debug.Log($"Setting pingu's DNA: \n{dna.ToString()}", gameObject);
             radarEnergyImage.SetWidth(dna.sense*2);
             radarEnergyImage.SetHeight(dna.sense*2);
             navMeshAgent.speed = dna.speed;
+            InvokeRepeating(nameof(Sense), dna.senseFrequency, dna.senseFrequency);
         } 
     }
     private DNA _dna;
@@ -81,8 +88,43 @@ public class Pingu : MonoBehaviour
             Die();
     }
 
+    private Collider sensedFood = null;
+    private void Sense()
+    {
+        List<Collider> hitColliders = Physics.OverlapSphere(transform.position, dna.sense).ToList();
+
+        if (sensedFood != null)
+            if (!hitColliders.Contains(sensedFood))
+            {
+                sensedFood = null;
+                navMeshAgent.destination = GameManager.instance.GetRandomPointInScenario(0.1f);
+            }
+        
+        Collider minDisCol = null;
+        float minDis = Single.PositiveInfinity;
+        foreach (var hitCollider in hitColliders)
+        {
+            if (!hitCollider.CompareTag("Food"))
+                continue;
+            
+            var dis = Vector3.Distance(hitCollider.transform.position, transform.position);
+            if (dis < minDis)
+            {
+                minDis = dis;
+                minDisCol = hitCollider;
+            }
+        }
+
+        if (minDisCol && energy < dna.minEnergyToReproduce)
+        {
+            navMeshAgent.destination = minDisCol.transform.position;
+            Debug.DrawLine(transform.position, navMeshAgent.destination, Color.green, dna.senseFrequency);
+        }
+    }
+
     private void Die()
     {
+        Debug.Log("Pingu dead");
         Destroy(gameObject);
     }
 
