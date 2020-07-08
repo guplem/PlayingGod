@@ -13,22 +13,37 @@ public class PinguManager : MonoBehaviour
             instance = this;
     }
     
-    [SerializeField] private GameObject penguin;
-    [SerializeField] private int maxPinguQtty;
+    [SerializeField] private GameObject pingu;
+    [SerializeField] private int initialPinguQtty;
     [SerializeField] private float minDistanceFromCenter;
-    private Pool pinguPool;
-    
+    [SerializeField] private float startEnergy;
+
     private void Start()
     {
-        pinguPool = new Pool(penguin, maxPinguQtty, false);
-
-        for (int f = 0; f < maxPinguQtty; f++)
-            InstantSpawn();
+        for (int f = 0; f < initialPinguQtty; f++)
+        {
+            Pingu spawnedPingu = InstantSpawn().GetComponent<Pingu>();
+            DNA newDna = ScriptableObject.CreateInstance<DNA>();
+            newDna.SetValues();
+            spawnedPingu.Init(newDna, GameManager.instance.GetRandomPointInScenario(minDistanceFromCenter), startEnergy);
+        }
     }
 
-    private void InstantSpawn()
+    public void SpawnBreeded(DNA mutatedDna, Pingu pingu, float energyForChild)
     {
-        pinguPool.Spawn(GameManager.instance.GetRandomPointInScenario(minDistanceFromCenter), Quaternion.identity, Vector3.one);
+        Pingu spawnedPingu = InstantSpawn(pingu.gameObject.transform.position).GetComponent<Pingu>();
+        spawnedPingu.Init(mutatedDna, GameManager.instance.GetRandomPointInScenario(minDistanceFromCenter), energyForChild);
+        Debug.Log($"New Pingu spawned: {spawnedPingu.gameObject.name}", spawnedPingu.gameObject);
+    }
+    
+    private GameObject InstantSpawn(Vector3 position)
+    {
+        return Instantiate(pingu, position, Quaternion.identity);
+    }
+    
+    private GameObject InstantSpawn()
+    {
+        return InstantSpawn(GameManager.instance.GetRandomPointInScenario(minDistanceFromCenter));
     }
     
     private void OnDrawGizmosSelected()
@@ -36,5 +51,6 @@ public class PinguManager : MonoBehaviour
         Gizmos.color = Color.grey;
         Gizmos.DrawWireSphere(transform.position, minDistanceFromCenter);
     }
+
 
 }

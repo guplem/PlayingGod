@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9660fef05aacf548b8d07910824f983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penguin: {fileID: 6687576979631891645, guid: e3bd31f0c988acd47a3b50a0cf6000ce, type: 3}
-  maxPinguQtty: 15
+  pingu: {fileID: 6687576979631891645, guid: e3bd31f0c988acd47a3b50a0cf6000ce, type: 3}
+  initialPinguQtty: 10
   minDistanceFromCenter: 20
+  startEnergy: 50

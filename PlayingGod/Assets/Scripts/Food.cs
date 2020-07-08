@@ -7,7 +7,7 @@ public class Food : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Pingu pingu = GetComponent<Pingu>();
+        Pingu pingu = other.GetComponent<Pingu>();
         if (pingu)
             FoodManager.instance.Collected(this, pingu);
     }

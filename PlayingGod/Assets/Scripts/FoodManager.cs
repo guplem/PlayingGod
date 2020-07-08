@@ -35,7 +35,7 @@ public class FoodManager : MonoBehaviour
 
     public void Collected(Food food, Pingu pingu)
     {
-        pingu.Feed();
+        pingu.Feed(10);
         foodPool.Disable(food.gameObject);
         StartCoroutine(nameof(InstantSpawn));
     }
