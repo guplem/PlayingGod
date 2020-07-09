@@ -34,12 +34,25 @@ public class Pingu : MonoBehaviour
             }
             _dna = value;
             Debug.Log($"Setting pingu's DNA: \n{dna.ToString()}", gameObject);
+            
+            
             radarEnergyImage.SetWidth(dna.sense*2);
             radarEnergyImage.SetHeight(dna.sense*2);
             navMeshAgent.speed = dna.speed;
+            MaterialPropertyBlock block = new MaterialPropertyBlock();
+
+            foreach (MeshRenderer mr in meshRenderersToColor)
+            {
+                block.SetColor(baseColor, dna.color);
+                mr.SetPropertyBlock(block);
+                Debug.Log("SETTING COLOR " + dna.color);
+            }
+            
             InvokeRepeating(nameof(Sense), dna.senseFrequency, dna.senseFrequency);
         } 
     }
+    private static readonly int baseColor = Shader.PropertyToID("_Color");
+
     private DNA _dna;
     private Vector3 home;
 
@@ -77,6 +90,7 @@ public class Pingu : MonoBehaviour
             if (energy >= dna.minEnergyToReproduce)
             {
                 Debug.LogWarning($"Enough energy to reproduce but not reching home to breed. Distance = {Vector3.Distance(navMeshAgent.destination, home)}", gameObject);
+                navMeshAgent.destination = home;
             }
             
             navMeshAgent.destination = GameManager.instance.GetRandomPointInScenario(0.1f);
@@ -89,6 +103,8 @@ public class Pingu : MonoBehaviour
     }
 
     private Collider sensedFood = null;
+    [SerializeField] private List<MeshRenderer> meshRenderersToColor;
+
     private void Sense()
     {
         List<Collider> hitColliders = Physics.OverlapSphere(transform.position, dna.sense).ToList();

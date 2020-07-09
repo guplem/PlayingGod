@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.246707, g: 0.8301887, b: 0.82403255, a: 0.4745098}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -185,6 +185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radarEnergyImage: {fileID: 8119806419630347736}
+  meshRenderersToColor:
+  - {fileID: 4593869187154214562}
 --- !u!195 &5985373017865768873
 NavMeshAgent:
   m_ObjectHideFlags: 0

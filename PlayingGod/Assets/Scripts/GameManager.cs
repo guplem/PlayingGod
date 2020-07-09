@@ -34,5 +34,16 @@ public class GameManager : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, scenarioRadius);
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            Time.timeScale += 0.25f;
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            Time.timeScale -= 0.25f;
+        
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            Time.timeScale = 1;
+    }
 }

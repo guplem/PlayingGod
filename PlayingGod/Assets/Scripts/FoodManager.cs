@@ -17,7 +17,7 @@ public class FoodManager : MonoBehaviour
     
     [SerializeField] private GameObject food;
     [SerializeField] private int maxFoodQtty;
-    [SerializeField] private float foodDelayRespawn;
+    [SerializeField] private float timeBetweenSpawns = 3;
     private Pool foodPool;
     
     private void Start()
@@ -26,6 +26,8 @@ public class FoodManager : MonoBehaviour
 
         for (int f = 0; f < maxFoodQtty; f++)
             InstantSpawn();
+
+        StartCoroutine(ConstantSpawn());
     }
 
     private void InstantSpawn()
@@ -37,13 +39,15 @@ public class FoodManager : MonoBehaviour
     {
         pingu.Feed(10);
         foodPool.Disable(food.gameObject);
-        StartCoroutine(nameof(InstantSpawn));
     }
     
-    IEnumerator DelayedSpawn(Food food) 
+    IEnumerator ConstantSpawn() 
     {
-        yield return new WaitForSeconds(foodDelayRespawn);
-        InstantSpawn();
+        while (true)
+        {
+            yield return new WaitForSeconds(timeBetweenSpawns);
+            InstantSpawn();            
+        }
     }
 
 

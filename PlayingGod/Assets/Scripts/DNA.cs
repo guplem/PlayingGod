@@ -14,6 +14,23 @@ public class DNA : ScriptableObject
     [SerializeField] public float percEnergyToReproduce { get; private set; }
     [SerializeField] public float minEnergyToReproduce { get; private set; }
 
+    public Color color
+    {
+        get
+        {
+            int steps = 6;
+            float hue = speed/1.75f;
+
+            const float saturation = 0.85f;
+            const float valueBrightness = 1f;
+
+            Color rgb = Color.HSVToRGB(hue, saturation, valueBrightness, true);
+            rgb.a = 1f;
+            
+            return rgb;
+        }
+    }
+
     public float energyCostPerSecond
     {
         get
@@ -32,7 +49,7 @@ public class DNA : ScriptableObject
 
     private float _energyCostPerSecond = -1;
 
-    public void SetValues(float mutationPercentage = 0.1f, float speed = 1f, float sense= 3f, float senseFrequency= 3f, float percEnergyToReproduce = 0.5f, float minEnergyToReproduce = 100f)
+    public void SetValues(float mutationPercentage = 0.2f, float speed = 1f, float sense= 3f, float senseFrequency= 3f, float percEnergyToReproduce = 0.5f, float minEnergyToReproduce = 100f)
     {
         this.mutationPercentage = mutationPercentage;
         this.speed = speed;
